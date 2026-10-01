@@ -195,3 +195,6 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--m
 .shot { margin: 8px 0 20px; }
 .shot img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
 .shot figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); }
+
+/* evita que diagramas largos alarguem a coluna */
+.article .wrap > div { min-width: 0; }
