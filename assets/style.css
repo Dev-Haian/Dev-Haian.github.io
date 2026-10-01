@@ -188,3 +188,5 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--m
 .next small { display: block; color: var(--muted); font-size: 13px; }
 .next strong { font-size: 18px; }
 .next a:last-child { text-align: right; margin-left: auto; }
+
+.article .small a { color: var(--muted); }

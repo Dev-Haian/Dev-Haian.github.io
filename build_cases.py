@@ -76,30 +76,53 @@ def page(slug, lane, title, desc, lead, meta, sections, prev, nxt):
 
 
 # ------------------------------------------------------------------ PRODUTO 1
-d1 = svg(1000, 250, ''.join([
-    box(10, 40, 160, 70, 'Simulação', 'objetivo e parcela', P),
-    arrow(170, 75, 205, 75),
-    box(210, 40, 160, 70, 'Proposta', 'dados e aceite', P),
-    arrow(370, 75, 405, 75),
-    box(410, 40, 160, 70, 'Pagamento inicial', 'primeira parcela', P),
-    arrow(570, 75, 605, 75),
-    box(610, 40, 160, 70, 'Administradora', 'cota confirmada', P),
-    arrow(770, 75, 805, 75),
-    box(810, 40, 180, 70, 'Plataforma liberada', 'acompanhamento', P, '#20263b'),
-    box(210, 165, 560, 62, 'Regras que atravessam a jornada', 'reajuste · lance embutido · redutor · taxa de administração · seguro'),
-    arrow(290, 165, 290, 112, MUTED, True), arrow(490, 165, 490, 112, MUTED, True), arrow(690, 165, 690, 112, MUTED, True),
+d1 = svg(1000, 130, ''.join([
+    box(5, 30, 150, 70, 'Entender', 'o produto', P),
+    arrow(155, 65, 172, 65),
+    box(175, 30, 150, 70, 'Simular', 'carta e parcela', P),
+    arrow(325, 65, 342, 65),
+    box(345, 30, 150, 70, 'Explorar', 'estratégias', P),
+    arrow(495, 65, 512, 65),
+    box(515, 30, 150, 70, 'Contemplação', 'expectativa', P),
+    arrow(665, 65, 682, 65),
+    box(685, 30, 150, 70, 'Lances', 'impacto no crédito', P),
+    arrow(835, 65, 852, 65),
+    box(855, 30, 140, 70, 'Decidir', 'proposta', P, '#20263b'),
 ]), P)
 
-page('consorcio-como-investimento', 'p', 'Consórcio como investimento',
-     'Case de produto: transformação digital do consórcio, do pagamento inicial à plataforma liberada.',
-     'Como levar uma operação de consórcio, cheia de regras que mudam de administradora para administradora, para uma jornada digital que o cliente entende e que o time consegue construir e validar.',
-     [('Empresa', 'Teddy Open Finance'), ('Meu papel', 'Ponto focal de negócio da squad'), ('Período', '2025 – 2026'), ('Com quem', 'PO, Tech Lead, devs, negócio')],
+d1b = svg(1000, 420, ''.join([
+    box(400, 10, 200, 56, 'Simulação', '', P, '#20263b'),
+    arrow(450, 66, 200, 110), arrow(500, 66, 500, 110), arrow(550, 66, 800, 110),
+    box(110, 112, 180, 56, 'Carta', 'valor do crédito'),
+    box(410, 112, 180, 56, 'Parcela', 'quanto cabe no bolso'),
+    box(710, 112, 180, 56, 'Prazo', 'meses do grupo'),
+    arrow(200, 168, 470, 208), arrow(500, 168, 500, 208), arrow(800, 168, 530, 208),
+    box(380, 210, 240, 56, 'Estratégia', 'objetivo do cliente', P),
+    arrow(450, 266, 200, 306), arrow(500, 266, 500, 306), arrow(550, 266, 800, 306),
+    box(110, 308, 180, 56, 'Sorteio', 'sem custo extra'),
+    box(410, 308, 180, 56, 'Lance livre', 'recurso próprio'),
+    box(710, 308, 180, 56, 'Lance embutido', 'usa parte da carta'),
+    arrow(290, 336, 405, 395, MUTED, True), arrow(800, 364, 600, 395, MUTED, True),
+    box(400, 370, 200, 46, 'Crédito líquido', '', P, '#20263b'),
+]), P)
+
+FONTES = ('<p class="small muted">Fontes: ABAC, <a href="https://blog.abac.org.br/drops-de-mercado/sistema-de-consorcios-em-dezembro-2025-dados-economicos">Sistema de Consórcios em dezembro de 2025</a> e '
+          '<a href="https://blog.abac.org.br/drops-de-mercado/sistema-de-consorcios-em-maio-2026-dados-economicos">Sistema de Consórcios em maio de 2026</a>.</p>')
+
+page('consorcio-como-investimento', 'p', 'Consórcio como investimento: de uma jornada de venda para uma jornada de decisão',
+     'Case de produto: como transformar conhecimento de consórcio em uma experiência digital de decisão.',
+     'O desafio não era só digitalizar a venda de consórcio. Era colocar dentro da jornada o conhecimento necessário para o cliente e o vendedor entenderem o que estavam contratando.',
+     [('Empresa', 'Teddy Open Finance'), ('Meu papel', 'Produto, negócio e QA'), ('Período', '2025 – 2026'), ('Com quem', 'PO, Tech Lead, devs, negócio')],
      [
-         ('contexto', 'Contexto', '<p>Consórcio costuma ser vendido como forma de comprar um bem no futuro. O produto propunha outro olhar: o consórcio como <strong>planejamento financeiro e investimento</strong>, com a carta de crédito como ativo do cliente.</p><p>O problema é que a operação por trás disso é complexa. Cada administradora tem suas regras de reajuste, lance, taxas e seguros, e quase tudo acontecia fora de um fluxo digital.</p>'),
-         ('problema', 'O problema', '<div class="callout"><p>Como tornar compreensível, consistente e validável uma operação cheia de exceções, sem simplificar demais a ponto de prometer ao cliente algo que a administradora não cumpre?</p></div>'),
-         ('o-que-fiz', 'O que eu fiz', '<ul><li><strong>Mapeei as regras de cada administradora</strong> (Porto, Rodobens, Servopa e Itaú) e o que mudava entre elas: reajuste, lance embutido, redutor, taxa de administração e seguro.</li><li><strong>Desenhei a jornada ponta a ponta</strong> com o time: da simulação e da proposta ao pagamento inicial, à confirmação da cota e à liberação da plataforma.</li><li><strong>Escrevi histórias e critérios de aceite em BDD</strong>, com os cenários de exceção já previstos (lance acima do permitido, reajuste no meio do grupo, comparação com financiamento).</li><li><strong>Conduzi os refinamentos</strong> traduzindo cada regra em comportamento de tela e de API, para que desenvolvimento e negócio entendessem a mesma coisa.</li><li><strong>Validei os cálculos</strong> entre tela, API e o documento gerado, porque um número diferente no PDF quebra a confiança do cliente.</li></ul>' + f'<figure class="diagram">{d1}<figcaption>A jornada do consórcio e as regras que atravessam todas as etapas. Uma regra mal entendida no começo aparece como erro de cálculo no fim.</figcaption></figure>'),
-         ('resultado', 'Resultado', '<div class="numbers"><div><b>Ponta a ponta</b><span>jornada digital do primeiro pagamento à plataforma liberada</span></div><div><b>4</b><span>administradoras com regras mapeadas e traduzidas em jornada</span></div><div><b>Antes</b><span>riscos de regra encontrados no refinamento, não no teste final</span></div></div><p>Ao participar da definição das regras e dos critérios desde o começo, os cenários de risco apareceram ainda no refinamento, quando corrigir custa pouco.</p>'),
-         ('aprendizado', 'O que aprendi', '<p>Em produto financeiro, a parte difícil não é a tela, é a regra. Quem entende a regra a fundo consegue simplificar a experiência sem esconder do cliente o que importa.</p>'),
+         ('mercado', 'O mercado', '<p>O consórcio vive o melhor momento da sua história no Brasil. Em 2025, o sistema passou pela primeira vez de <strong>12 milhões de participantes ativos</strong>, vendeu <strong>5,16 milhões de cotas</strong> (15% a mais que em 2024) e somou <strong>R$ 500 bilhões em créditos comercializados</strong>, alta de 32%. De janeiro a maio de 2026, foram mais 2,36 milhões de adesões, 14% acima do mesmo período do ano anterior.</p><p>Junto com o volume, mudou o discurso: o consórcio passou a ser apresentado também como ferramenta de <strong>planejamento financeiro</strong>, e não só como forma de comprar um bem.</p>' + FONTES),
+         ('contexto', 'Contexto', '<p>A empresa já tinha forte atuação em educação sobre consórcio e decidiu ampliar o portfólio com uma nova modalidade: <strong>Consórcio como Investimento</strong>.</p><p>O desafio é que esse produto só faz sentido para quem entende contemplação, lances, crédito e regras do grupo. Uma tela de simulação comum não resolvia.</p>'),
+         ('problema', 'O problema', '<div class="callout"><p>O mercado já vendia consórcio. O desafio era vender conhecimento suficiente para que a pessoa entendesse o que estava contratando.</p></div><p>A jornada tradicional seguia uma lógica simples: escolher carta, escolher prazo, ver parcela, enviar proposta. Para o novo produto, cliente e vendedor precisavam responder perguntas que essa jornada não respondia:</p><ul><li>Qual carta faz sentido para o meu objetivo, e qual parcela consigo assumir?</li><li>Como funciona a contemplação, e quanto tempo pode levar?</li><li>O que acontece se eu ofertar um lance? Qual percentual faz sentido?</li><li>Como cada estratégia muda o resultado, e qual o impacto do lance no crédito que recebo?</li></ul>'),
+         ('insight', 'O insight', '<p>O problema não estava na falta de funcionalidades. Estava na <strong>falta de contexto para interpretar as informações</strong>. O usuário via uma carta e uma parcela, mas não entendia o comportamento daquela escolha.</p><div class="callout"><p>A proposta mudou de "vamos criar uma calculadora de consórcio" para "vamos criar uma ferramenta que ajude a entender e comparar estratégias".</p></div>'),
+         ('solucao', 'A solução', f'<p>A jornada passou a juntar educação, simulação e análise, em vez de terminar na parcela:</p><figure class="diagram">{d1}<figcaption>Cada etapa responde uma dúvida antes de o cliente chegar à proposta.</figcaption></figure><ul><li><strong>Simulação por crédito ou por parcela</strong>, partindo do que o cliente sabe responder.</li><li><strong>Estratégias comparadas lado a lado</strong>, cada uma com resultado estimado, valor investido até a contemplação e percentual de retorno.</li><li><strong>Expectativa de contemplação</strong> a partir de dados históricos dos grupos, em vez de prometer uma data.</li><li><strong>Lances explicados:</strong> o lance embutido, por exemplo, usa parte da própria carta e reduz o crédito líquido. A tela mostra esse efeito antes da decisão.</li></ul>'),
+         ('complexidade', 'O que existe por trás de uma simulação', f'<p>Uma tela que parece simples esconde uma árvore de regras. Cada combinação precisava estar certa na tela, na API e no documento gerado.</p><figure class="diagram">{d1b}<figcaption>Carta, parcela e prazo definem a estratégia. A forma de contemplação muda o crédito que o cliente realmente recebe.</figcaption></figure>'),
+         ('atuacao', 'Minha atuação', '<p>Atuei conectando Produto, Negócio, Desenvolvimento e Qualidade, principalmente na tradução das regras do mercado de consórcio para uma experiência digital compreensível e validável.</p><ul><li><strong>Produto:</strong> entendimento do problema, necessidades de cliente e vendedor, definição da jornada, regras de negócio, cenários e critérios de aceite, discussão de alternativas de solução.</li><li><strong>Negócio:</strong> regras das administradoras, análise das estratégias de lance, comportamento de contemplação, alinhamento com stakeholders.</li><li><strong>Qualidade:</strong> análise de riscos, validação dos cálculos, testes funcionais, exploratórios e de cenários extremos, validação de integrações e conferência entre tela, cálculo e documentos.</li></ul>'),
+         ('resultado', 'Resultado', '<div class="numbers"><div><b>Lançado</b><span>nova modalidade no ar, com jornada de decisão de ponta a ponta</span></div><div><b>Em uso</b><span>acompanhada pelo funil de simulação, proposta e contrato</span></div><div><b>Antes</b><span>riscos de regra encontrados no refinamento, não no teste final</span></div></div><p>Nos meses seguintes ao lançamento, o funil mostrou que quem chegava à proposta já entendia o que estava contratando: a conversão de proposta em contrato foi alta para um produto financeiro complexo.</p>'),
+         ('aprendizado', 'O que aprendi', '<p>Em produto financeiro, a parte difícil não é a tela, é a regra. E o cliente não compra o que não entende. Colocar o conhecimento dentro da jornada foi o que transformou uma calculadora em uma ferramenta de decisão.</p><div class="callout"><p>O desafio não era colocar o consórcio na tela. Era colocar dentro da jornada o conhecimento necessário para tomar uma decisão.</p></div>'),
      ],
      ('plataforma-de-automacao.html', 'Plataforma de automação E2E'), ('compra-de-bens-e-servicos.html', 'Compra de bens e serviços'))
 
