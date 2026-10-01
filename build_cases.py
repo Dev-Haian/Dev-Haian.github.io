@@ -210,31 +210,44 @@ page('simulakey', 'q', 'Simulakey: de 20 para 5 bugs por mês num sistema legado
      ('compra-de-bens-e-servicos.html', 'Compra de bens e serviços'), ('plataforma-de-automacao.html', 'Plataforma de automação E2E'))
 
 # ------------------------------------------------------------------ QUALIDADE 2
-d4 = svg(1000, 330, ''.join([
-    box(10, 20, 200, 64, 'Agendador', 'a cada 5 min e a cada 6 h'),
-    box(10, 133, 200, 64, 'GitHub Actions', 'a cada mudança'),
-    arrow(210, 52, 275, 85), arrow(210, 165, 275, 125),
-    box(280, 20, 220, 64, 'Web · Playwright', '8 jornadas, 4 resoluções', Q, '#17302b'),
-    box(280, 120, 220, 64, 'Mobile · Appium', 'app Android', Q, '#17302b'),
-    box(280, 220, 220, 64, 'Health check', 'microsserviços HML e PROD', Q, '#17302b'),
-    arrow(500, 52, 575, 140), arrow(500, 152, 575, 152), arrow(500, 252, 575, 165),
-    box(580, 115, 170, 76, 'Resultados', 'histórico e tempos'),
-    arrow(750, 135, 815, 60), arrow(750, 172, 815, 240),
-    box(820, 25, 170, 70, 'Portal', 'saúde em tempo real'),
-    box(820, 205, 170, 70, 'Teams', 'ao cair e ao voltar', '#e07a7a'),
+d4 = svg(1000, 340, ''.join([
+    box(10, 125, 150, 70, 'Cron', 'agenda única'),
+    arrow(160, 145, 225, 55), arrow(160, 160, 225, 160), arrow(160, 175, 225, 265),
+    box(230, 20, 230, 66, 'Smoke', 'o sistema está de pé?', Q, '#17302b'),
+    box(230, 127, 230, 66, 'Critical', 'login e criação de proposta', Q, '#17302b'),
+    box(230, 234, 230, 66, 'Regressão', 'cobertura ampla', Q, '#17302b'),
+    box(560, 258, 190, 70, 'Health check', 'cada microsserviço'),
+    arrow(655, 258, 655, 203, MUTED, True),
+    arrow(460, 53, 555, 145), arrow(460, 160, 555, 160), arrow(460, 267, 555, 175),
+    box(560, 120, 190, 80, 'Insights', 'telas lentas · erros críticos'),
+    arrow(750, 145, 815, 70), arrow(750, 175, 815, 250),
+    box(820, 35, 170, 70, 'Painel', 'tudo num lugar só'),
+    box(820, 215, 170, 70, 'Teams', 'canal do time', '#e07a7a'),
 ]), Q)
 
-page('plataforma-de-automacao', 'q', 'Plataforma de automação E2E com monitoramento',
-     'Case de qualidade: automação E2E web e mobile com alertas no Teams, insights de performance, arquitetura de testes e monitoramento em tempo real.',
-     'Os resultados de automação estavam espalhados, a regressão era manual e ninguém sabia que algo tinha quebrado até um cliente reclamar. Construí uma plataforma que testa, monitora e avisa sozinha.',
-     [('Empresa', 'Teddy Open Finance'), ('Meu papel', 'Arquitetura e desenvolvimento'), ('Período', '2025 – 2026'), ('Stack', 'Playwright, TS, Appium, React, Node')],
+def time_chart():
+    base = 220
+    out = f'<line x1="120" y1="{base}" x2="880" y2="{base}" stroke="{LINE}" stroke-width="1.5"/>'
+    for x, val, lab, col in [(250, 30, '3 fluxos manuais (10 min cada)', '#e07a7a'), (590, 5, 'Os 3 fluxos automatizados', Q)]:
+        h = val * 5.6
+        out += f'<rect x="{x}" y="{base - h}" width="160" height="{h}" rx="6" fill="{col}" fill-opacity=".85"/>'
+        out += f'<text x="{x + 80}" y="{base - h - 12}" text-anchor="middle" font-size="26" font-weight="800" fill="{TEXT}">{val} min</text>'
+        out += f'<text x="{x + 80}" y="{base + 26}" text-anchor="middle" font-size="15" fill="{MUTED}">{lab}</text>'
+    out += f'<text x="500" y="{base - 110}" text-anchor="middle" font-size="18" font-weight="800" fill="{Q}">−83%</text>'
+    return svg(1000, 260, out, Q)
+
+d4b = time_chart()
+
+page('plataforma-de-automacao', 'q', 'Plataforma de testes e monitoramento: tudo num lugar só',
+     'Case de qualidade: cron com suítes smoke, critical e regressão, health check de microsserviços, insights de performance e alertas no Teams. Validação dos fluxos críticos de 30 para 5 minutos.',
+     'A plataforma era feita de vários microsserviços, e cada parte era verificada de um jeito diferente, quando era. Juntei testes automatizados, health check e alertas em um único lugar, para o time saber a qualquer momento se o produto estava funcionando.',
+     [('Empresa', 'Teddy Open Finance'), ('Meu papel', 'Idealização e desenvolvimento'), ('Período', '2025 – 2026'), ('Stack', 'Playwright, TS, Node, Teams')],
      [
-         ('contexto', 'Contexto', '<p>A squad tinha jornadas críticas para a receita (login, simulação e criação de proposta, por três caminhos diferentes) e um aplicativo Android. A regressão completa era feita à mão e levava horas, e falhas em produção eram descobertas tarde.</p>'),
+         ('contexto', 'Contexto', '<p>A plataforma tinha <strong>vários microsserviços</strong> por trás de jornadas que geram receita: login, simulação e criação de propostas. A validação dependia muito de testes manuais e de regressão feitos à mão, e falhas em produção eram percebidas tarde.</p>'),
          ('problema', 'O problema', '<div class="callout"><p>Como saber, a qualquer momento, se o produto está funcionando? E como fazer isso sem depender de alguém rodar testes manualmente e sem encher o time de alertas que ninguém lê?</p></div>'),
-         ('arquitetura', 'Arquitetura de testes', '<p>Organizei tudo em um monorepo com quatro partes que conversam entre si:</p><ul><li><strong>Web:</strong> Playwright + TypeScript, Page Objects, fixtures, login reaproveitado e as jornadas rodando em 4 resoluções (Full HD, notebook, tablet e celular).</li><li><strong>Mobile:</strong> WebdriverIO + Appium para o app Android, com evidências em vídeo e logs.</li><li><strong>Health check:</strong> verificação dos microsserviços em homologação e produção, com uma regra clara de DOWN (HTTP 408, 500, 502, 504 ou timeout).</li><li><strong>Portal:</strong> React + Node.js reunindo execuções, histórico e evidências por squad e ambiente.</li></ul>' + f'<figure class="diagram">{d4}<figcaption>Execução agendada e por evento, resultados centralizados, e só dois destinos para a informação: o portal para quem quer olhar, o Teams para quando algo muda.</figcaption></figure>'),
-         ('monitoramento', 'Monitoramento e alertas', '<ul><li><strong>Tempo real:</strong> smoke e health check a cada 5 minutos, jornadas críticas a cada 6 horas.</li><li><strong>Alertas no Teams só em mudanças</strong>: quando um serviço cai e quando volta. Alerta repetido vira ruído e o time para de ler.</li><li><strong>Evidência junto do alerta</strong>: o link leva direto ao trace, ao vídeo e aos logs da falha.</li></ul>'),
-         ('insights', 'Insights de performance', '<p>Cada jornada registra quanto tempo leva automatizada e quanto levaria manualmente. O portal transforma isso em indicadores para a liderança: tempo por jornada, tendência de lentidão e economia gerada pela automação.</p><div class="numbers"><div><b>~2 h → 15 min</b><span>regressão das 8 jornadas críticas (estimativa do próprio relatório)</span></div><div><b>5 min</b><span>intervalo do smoke e do health check</span></div><div><b>Web + mobile</b><span>em um só painel, com histórico</span></div></div>'),
-         ('aprendizado', 'O que aprendi', '<p>Automação só gera valor quando alguém usa o resultado. Mais do que escrever testes, o trabalho foi decidir o que medir, quando avisar e para quem, para que a informação chegasse ao time na hora certa.</p><p>Uma versão pública da mesma arquitetura, sem dados da empresa, está no meu GitHub: <a href="https://github.com/Dev-Haian/playwright-e2e-api">playwright-e2e-api</a>, com o <a href="https://dev-haian.github.io/playwright-e2e-api/">relatório</a> e o <a href="https://dev-haian.github.io/playwright-e2e-api/health/">painel de health check</a> no ar.</p>'),
+         ('o-que-fiz', 'O que eu fiz', '<ul><li><strong>Uni tudo em um único lugar:</strong> testes automatizados, health check e alertas passaram a viver na mesma plataforma, com uma visão só para o time.</li><li><strong>Um cron, três suítes, uma para cada necessidade:</strong> <em>smoke</em> para saber se o sistema está de pé, <em>critical</em> para as jornadas que geram receita e <em>regressão</em> para a cobertura ampla. Cada uma roda na frequência que faz sentido para o risco que cobre.</li><li><strong>Automatizei o que tem mais valor:</strong> em vez de tentar cobrir tudo, priorizei as jornadas críticas, como login e criação de propostas, com Playwright.</li><li><strong>Health check de cada microsserviço:</strong> o monitoramento verifica serviço por serviço e, junto com as suítes, valida boa parte do sistema a cada execução.</li><li><strong>Tela de insights:</strong> mostra as telas que estão demorando para carregar e os erros críticos, para o time agir antes do cliente reclamar.</li><li><strong>Alertas no Teams:</strong> quando algo crítico acontece, um aviso vai para um canal compartilhado com todo o time.</li></ul>' + f'<figure class="diagram">{d4}<figcaption>Um cron dispara as três suítes. Junto com o health check dos microsserviços, os resultados alimentam os insights, que vão para o painel e, quando é crítico, para o Teams.</figcaption></figure>'),
+         ('resultado', 'Resultado', f'<figure class="diagram">{d4b}<figcaption>Tempo para validar os 3 fluxos críticos, antes e depois da automação.</figcaption></figure><div class="numbers"><div><b>30 → 5 min</b><span>para validar os 3 fluxos críticos, simulações e propostas</span></div><div><b>−83%</b><span>no tempo de validação desses fluxos</span></div><div><b>Tempo real</b><span>health check de cada microsserviço e alerta no Teams</span></div></div><p>Como as suítes já cobriam as partes críticas do sistema, a redução de testes manuais e de regressão foi grande. O time passou a gastar tempo testando o que é novo, e não repetindo o que a automação já garante.</p>'),
+         ('aprendizado', 'O que aprendi', '<p>Automação só gera valor quando alguém usa o resultado. Mais do que escrever testes, o trabalho foi decidir o que automatizar primeiro, quando avisar e para quem, para que a informação chegasse ao time na hora certa.</p><p>Uma versão pública da mesma arquitetura, sem dados da empresa, está no meu GitHub: <a href="https://github.com/Dev-Haian/playwright-e2e-api">playwright-e2e-api</a>, com o <a href="https://dev-haian.github.io/playwright-e2e-api/">relatório</a> e o <a href="https://dev-haian.github.io/playwright-e2e-api/health/">painel de health check</a> no ar.</p>'),
      ],
      ('simulakey.html', 'Simulakey'), ('consorcio-como-investimento.html', 'Consórcio como investimento'))
 
