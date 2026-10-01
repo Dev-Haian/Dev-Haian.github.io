@@ -152,27 +152,58 @@ page('consorcio-como-investimento', 'p', 'Consórcio como investimento: de uma j
      ('plataforma-de-automacao.html', 'Plataforma de automação E2E'), ('compra-de-bens-e-servicos.html', 'Compra de bens e serviços'))
 
 # ------------------------------------------------------------------ PRODUTO 2
-d2 = svg(1000, 290, ''.join([
-    box(10, 110, 170, 70, 'Objetivo do cliente', 'valor, prazo, parcela', P),
-    arrow(180, 130, 255, 70), arrow(180, 160, 255, 220),
-    box(260, 35, 230, 70, 'Busca inteligente', 'o sistema sugere as cotas', P, '#20263b'),
-    box(260, 185, 230, 70, 'Busca manual', 'o cliente escolhe a cota', P),
-    arrow(490, 70, 560, 130), arrow(490, 220, 560, 160),
-    box(565, 110, 190, 70, 'Simulação', 'uma regra só', P),
-    arrow(755, 145, 805, 145),
-    box(810, 110, 180, 70, 'Proposta', 'cota reservada'),
+d2 = svg(1000, 300, ''.join([
+    box(5, 115, 150, 70, 'Objetivo', 'bem ou serviço', P),
+    arrow(155, 150, 180, 150),
+    box(185, 115, 160, 70, 'Plano', 'parcela que cabe', P),
+    arrow(345, 135, 395, 65), arrow(345, 165, 395, 235),
+    box(400, 30, 200, 70, 'Sugestão da IA', 'melhor parcela ou lance', P, '#20263b'),
+    box(400, 200, 200, 70, 'Pedido do cliente', 'busca manual de grupos', P),
+    arrow(600, 65, 650, 135), arrow(600, 235, 650, 165),
+    box(655, 115, 175, 70, 'Contemplação', 'chance estimada', P),
+    arrow(830, 150, 855, 150),
+    box(860, 115, 135, 70, 'Proposta', 'de qualidade'),
 ]), P)
 
-page('compra-de-bens-e-servicos', 'p', 'Jornada de compra de bens e serviços',
-     'Case de produto: jornada de busca inteligente e busca manual de cotas, da simulação à proposta.',
-     'Uma mesma necessidade, dois tipos de cliente: quem quer que o sistema encontre a melhor opção e quem já sabe o que quer. O desafio foi atender os dois sem duplicar regras.',
-     [('Empresa', 'Teddy Open Finance'), ('Meu papel', 'Regras, fluxos e critérios'), ('Período', '2025 – 2026'), ('Com quem', 'PO, design, devs, negócio')],
+d2b = svg(1000, 280, ''.join([
+    box(10, 100, 220, 80, 'Jornada de compra', 'uma experiência só', P, '#20263b'),
+    arrow(230, 125, 335, 70), arrow(230, 155, 335, 210),
+    box(340, 35, 230, 70, 'API', 'quando o parceiro oferece', P),
+    box(340, 175, 230, 70, 'RPA', 'robô quando não há API', P),
+    arrow(570, 70, 685, 70), arrow(570, 210, 685, 210),
+    arrow(570, 85, 685, 195, MUTED, True), arrow(570, 195, 685, 85, MUTED, True),
+    box(690, 35, 290, 70, 'Administradoras', 'grupos, cotas e regras'),
+    box(690, 175, 290, 70, 'Instituições financeiras', 'oferta e proposta'),
+]), P)
+
+def funnel2():
+    rows = [('simulações', '718', 'R$ 299 mi em crédito simulado', 960, ''),
+            ('propostas', '144', 'R$ 60 mi em propostas', 560, '20,1% das simulações'),
+            ('contratos', '40', 'R$ 2,7 mi em contratos fechados', 300, '27,8% das propostas')]
+    out = ''
+    for i, (lab, num, val, w, conv) in enumerate(rows):
+        y = 26 + i * 96
+        x = (1000 - w) / 2
+        out += f'<rect x="{x}" y="{y}" width="{w}" height="70" rx="10" fill="#20263b" stroke="{P}" stroke-width="1.5"/>'
+        out += f'<text x="500" y="{y + 32}" text-anchor="middle" font-size="24" font-weight="800" fill="{TEXT}">{num} {lab}</text>'
+        out += f'<text x="500" y="{y + 55}" text-anchor="middle" font-size="14" fill="{MUTED}">{val}</text>'
+        if conv:
+            out += f'<text x="{x + w + 16}" y="{y + 40}" font-size="15" font-weight="700" fill="{P}">{conv}</text>'
+    return svg(1000, 310, out, P)
+
+d2c = funnel2()
+
+page('compra-de-bens-e-servicos', 'p', 'Jornada de compra de bens e serviços: vender consórcio de forma inteligente',
+     'Case de produto: jornada que ajuda o vendedor a montar uma proposta de qualidade, com plano, expectativa de contemplação e integração com vários parceiros via API e RPA.',
+     'Um mercado com muita inadimplência não precisa de mais vendas a qualquer custo. Precisa de propostas que o cliente consiga pagar. A jornada foi desenhada para ajudar o vendedor a montar essa proposta, com dados de vários parceiros num lugar só.',
+     [('Empresa', 'Teddy Open Finance'), ('Meu papel', 'Produto, regras e QA'), ('Período', '2025 – 2026'), ('Com quem', 'PO, devs, negócio, parceiros')],
      [
-         ('contexto', 'Contexto', '<p>O cliente chega com um objetivo concreto: um carro, um imóvel, uma reforma, um serviço. Para chegar lá pelo consórcio, ele precisa encontrar uma cota compatível com o valor, o prazo e a parcela que cabe no bolso.</p>'),
-         ('problema', 'O problema', '<div class="callout"><p>Parte dos clientes quer uma recomendação pronta. Outra parte, geralmente mais experiente, quer comparar e escolher. Duas jornadas separadas teriam o risco de calcular a mesma coisa de dois jeitos diferentes.</p></div>'),
-         ('o-que-fiz', 'O que eu fiz', '<ul><li><strong>Estruturei as duas jornadas</strong>: a busca inteligente, que sugere cotas a partir do objetivo, e a busca manual, em que o cliente filtra e escolhe.</li><li><strong>Defini uma única fonte de regras</strong> para a simulação, usada pelos dois caminhos, para que o mesmo cenário sempre gere o mesmo resultado.</li><li><strong>Mapeei as exceções</strong>: cota indisponível no meio do fluxo, valor fora da faixa, troca de caminho no meio da jornada.</li><li><strong>Escrevi os critérios de aceite</strong> de cada etapa, da busca à proposta, e validei os protótipos com o time de design.</li><li><strong>Levei essas jornadas para a automação</strong>: simulação e proposta pelos dois caminhos entraram na suíte de jornadas críticas.</li></ul>' + f'<figure class="diagram">{d2}<figcaption>Dois caminhos de entrada, uma regra de simulação. É o que garante que a recomendação e a escolha manual mostrem o mesmo valor.</figcaption></figure>'),
-         ('resultado', 'Resultado', '<div class="numbers"><div><b>2</b><span>caminhos de compra para perfis diferentes de cliente</span></div><div><b>1</b><span>regra de simulação compartilhada, sem cálculo duplicado</span></div><div><b>4</b><span>jornadas (simulação e proposta × 2) cobertas por automação</span></div></div>'),
-         ('aprendizado', 'O que aprendi', '<p>Dar opção ao cliente é bom; duplicar a lógica por trás das opções é caro. A decisão de produto mais importante deste case não aparece na tela: é a regra única por baixo das duas jornadas.</p>'),
+         ('contexto', 'Contexto', '<p>O consórcio cresce rápido no Brasil: em 2025 foram <strong>5,16 milhões de cotas vendidas</strong> e <strong>R$ 500 bilhões em créditos</strong>, segundo a ABAC. Mas venda mal feita vira inadimplência: o cliente compra uma parcela que não cabe no bolso ou uma expectativa de contemplação que não vai acontecer, e desiste no meio do caminho.</p><p>O vendedor, por sua vez, precisava consultar cada administradora separadamente para comparar grupos, taxas e chances, o que tornava a proposta lenta e pouco embasada.</p><p class="small muted">Fonte: ABAC, <a href="https://blog.abac.org.br/drops-de-mercado/sistema-de-consorcios-em-dezembro-2025-dados-economicos">Sistema de Consórcios em dezembro de 2025</a>.</p>'),
+         ('problema', 'O problema', '<div class="callout"><p>Como ajudar o vendedor a montar uma proposta de qualidade, que caiba no bolso do cliente e tenha expectativa realista de contemplação, comparando vários parceiros de uma vez?</p></div>'),
+         ('solucao', 'A solução', f'<p>A jornada parte do objetivo do cliente e de um <strong>plano</strong> com a parcela que ele consegue pagar. A partir daí, o vendedor escolhe entre dois caminhos que usam as mesmas regras:</p><figure class="diagram">{d2}<figcaption>Do objetivo à proposta: o plano vem antes da escolha do grupo, e a expectativa de contemplação aparece antes da decisão.</figcaption></figure><ul><li><strong>Sugestão da IA:</strong> o sistema recomenda as melhores opções entre os parceiros, destacando a de melhor parcela e a de melhor lance, com crédito, prazo e <strong>chance de contemplação</strong>.</li><li><strong>Pedido do cliente:</strong> busca manual em todos os grupos disponíveis por administradora, com filtros de crédito e parcela e comparação de taxa, fundo de reserva e média de lance.</li><li><strong>Comparar administradoras</strong> lado a lado antes de fechar a proposta.</li></ul><figure class="shot"><img src="../assets/bens-busca-inteligente.png" alt="Resultado da busca inteligente com duas opções sugeridas pela IA, uma de melhor parcela e outra de melhor lance, com crédito, parcela, prazo e chance de contemplação" loading="lazy" width="1139" height="427"><figcaption>Sugestão da IA: a melhor parcela (80% de chance de contemplação) e o melhor lance (38%), lado a lado.</figcaption></figure><figure class="shot"><img src="../assets/bens-busca-manual.png" alt="Busca manual com grupos de várias administradoras, filtros de crédito e parcela e colunas de taxa, fundo de reserva e média de lance" loading="lazy" width="1168" height="566"><figcaption>Pedido do cliente: grupos de várias administradoras numa tabela só, com filtros e comparação.</figcaption></figure>'),
+         ('integracoes', 'O maior desafio: integrar os parceiros', f'<p>Cada administradora e instituição financeira tem seu jeito de expor grupos, cotas e regras. Algumas oferecem API; outras, não. Para o vendedor ver tudo numa jornada só, foi preciso integrar cada parceiro do jeito que ele permitia.</p><figure class="diagram">{d2b}<figcaption>Cada parceiro é integrado do jeito que permite: API quando existe, RPA quando não existe. Para o vendedor, a diferença é invisível.</figcaption></figure><ul><li><strong>Levantei as regras de cada parceiro</strong> e o que precisava ser padronizado para caber na mesma tela.</li><li><strong>Defini critérios de aceite por integração</strong>, incluindo o que fazer quando um parceiro fica indisponível ou devolve dados incompletos.</li><li><strong>Validei os dados ponta a ponta</strong>, comparando o que o parceiro devolvia com o que a tela e a proposta mostravam.</li></ul>'),
+         ('resultado', 'Resultados de março a setembro de 2026', f'<p>Considerando a finalidade Aquisição de Bens no painel de vendas:</p><figure class="diagram">{d2c}<figcaption>Funil da jornada de compra de bens e serviços, de 1º de março a 25 de setembro de 2026.</figcaption></figure><div class="numbers"><div><b>718</b><span>simulações, somando R$ 299 milhões em crédito simulado</span></div><div><b>20,1%</b><span>das simulações viraram proposta (144 propostas)</span></div><div><b>40</b><span>contratos fechados, 27,8% das propostas</span></div></div><p>Uma em cada cinco simulações virou proposta, e mais de um quarto das propostas fechou. Com plano e expectativa de contemplação dentro da jornada, a proposta já nasce mais próxima do que o cliente consegue sustentar.</p><figure class="shot"><img src="../assets/bens-hub-vendas.png" alt="Painel de vendas filtrado por Aquisição de Bens: 718 simulações, 144 propostas e 40 ganhos" loading="lazy" width="991" height="397"><figcaption>Painel de vendas filtrado pela finalidade Aquisição de Bens.</figcaption></figure>'),
+         ('aprendizado', 'O que aprendi', '<p>Em consórcio, uma boa venda é a que continua paga até o fim. Dar ao vendedor contexto, e não só um preço, mudou a qualidade da proposta. E integração é produto: o cliente nunca vê a API ou o robô, mas sente quando um parceiro some da tela.</p>'),
      ],
      ('consorcio-como-investimento.html', 'Consórcio como investimento'), ('simulakey.html', 'Simulakey'))
 
