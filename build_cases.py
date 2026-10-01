@@ -14,6 +14,14 @@ HEAD = """<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} · Haian Vilas Boas</title>
 <meta name="description" content="{desc}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="https://dev-haian.github.io/assets/og/{slug}.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta property="og:url" content="https://dev-haian.github.io/cases/{slug}.html">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0d10'/%3E%3Crect x='7' y='9' width='18' height='3' rx='1.5' fill='%238b9cff'/%3E%3Crect x='7' y='20' width='18' height='3' rx='1.5' fill='%236fd3b8'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,7 +67,7 @@ def page(slug, lane, title, desc, lead, meta, sections, prev, nxt):
     body = ''.join(f'<section id="{sid}"><h2>{st}</h2>{html}</section>' for sid, st, html in sections)
     nav = (f'<div class="next"><a href="{prev[0]}"><small>Case anterior</small><strong>{prev[1]}</strong></a>'
            f'<a href="{nxt[0]}"><small>Próximo case</small><strong>{nxt[1]}</strong></a></div>')
-    html = (HEAD.format(title=title, desc=desc, lane=lane) +
+    html = (HEAD.format(title=title, desc=desc, lane=lane, slug=slug) +
             f"""<header class="case-hero"><div class="wrap">
   <a class="back" href="../#cases">Voltar para os cases</a><br>
   <span class="lane {lane}"><i></i>{lane_name}</span>
