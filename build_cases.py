@@ -169,31 +169,43 @@ page('compra-de-bens-e-servicos', 'p', 'Jornada de compra de bens e serviços',
      ('consorcio-como-investimento.html', 'Consórcio como investimento'), ('simulakey.html', 'Simulakey'))
 
 # ------------------------------------------------------------------ QUALIDADE 1
-d3 = svg(1000, 260, ''.join([
-    box(10, 40, 140, 66, 'Commit', 'mudança no código'),
+d3 = svg(1000, 250, ''.join([
+    box(10, 40, 140, 66, 'Deploy', 'nova versão'),
     arrow(150, 73, 185, 73),
-    box(190, 40, 140, 66, 'Build', 'pipeline'),
-    arrow(330, 73, 365, 73),
-    box(370, 25, 220, 96, 'Suíte de regressão', 'cálculos e fluxo de simulação', Q, '#17302b'),
-    arrow(590, 55, 665, 40, Q), arrow(590, 95, 665, 165, '#e07a7a'),
-    box(670, 10, 150, 60, 'Passou', 'deploy segue', Q),
-    box(670, 135, 150, 60, 'Falhou', 'deploy barrado', '#e07a7a'),
+    box(190, 25, 380, 96, 'Suíte Playwright + Gherkin', 'regras · cálculos · E2E da plataforma', Q, '#17302b'),
+    arrow(570, 55, 645, 40, Q), arrow(570, 95, 645, 165, '#e07a7a'),
+    box(650, 10, 170, 60, 'Passou', 'versão liberada', Q),
+    box(650, 135, 170, 60, 'Falhou', 'bug barrado', '#e07a7a'),
     arrow(820, 40, 855, 40, Q),
     box(860, 10, 130, 60, 'Produção'),
-    box(370, 180, 220, 62, 'Health check', 'serviço no ar em HML e PROD'),
-    arrow(480, 180, 480, 123, MUTED, True),
+    box(190, 170, 380, 62, 'Cenários em Gherkin', 'Dado · Quando · Então, legíveis por negócio'),
+    arrow(380, 170, 380, 123, MUTED, True),
 ]), Q)
 
-page('simulakey', 'q', 'Simulakey: proteger um sistema frágil a cada deploy',
-     'Case de qualidade: automação de regressão na pipeline de um simulador com arquitetura frágil.',
-     'O Simulakey era o simulador de consórcio: o primeiro número que o cliente vê. A arquitetura era ruim e qualquer mudança podia quebrar um cálculo em outro lugar. A reescrita não ia acontecer tão cedo, então era preciso proteger o que existia.',
-     [('Empresa', 'Teddy Open Finance'), ('Meu papel', 'QA responsável pela estratégia'), ('Período', '2025 – 2026'), ('Ferramentas', 'Playwright, CI, health check')],
+# Bugs por mês: antes e depois (barras proporcionais)
+def bugs_chart():
+    base = 230
+    out = f'<line x1="120" y1="{base}" x2="880" y2="{base}" stroke="{LINE}" stroke-width="1.5"/>'
+    for x, val, lab, col in [(250, 20, 'Antes da automação', '#e07a7a'), (590, 5, 'Depois da automação', Q)]:
+        h = val * 9.5
+        out += f'<rect x="{x}" y="{base - h}" width="160" height="{h}" rx="6" fill="{col}" fill-opacity=".85"/>'
+        out += f'<text x="{x + 80}" y="{base - h - 12}" text-anchor="middle" font-size="26" font-weight="800" fill="{TEXT}">{val}</text>'
+        out += f'<text x="{x + 80}" y="{base + 26}" text-anchor="middle" font-size="15" fill="{MUTED}">{lab}</text>'
+    out += f'<text x="500" y="{base - 120}" text-anchor="middle" font-size="18" font-weight="800" fill="{Q}">−75%</text>'
+    return svg(1000, 270, out, Q)
+
+d3b = bugs_chart()
+
+page('simulakey', 'q', 'Simulakey: de 20 para 5 bugs por mês num sistema legado',
+     'Case de qualidade: automação Playwright com Gherkin rodando a cada deploy num simulador com arquitetura ultrapassada. Bugs caíram 75%.',
+     'O Simulakey é a calculadora de consórcio: o primeiro número que o cliente vê. A arquitetura era ultrapassada, cheia de dependências e com regras de negócio dentro do front-end. A reescrita não ia acontecer tão cedo, então era preciso proteger o que existia.',
+     [('Empresa', 'Teddy Open Finance'), ('Meu papel', 'QA, estratégia e automação'), ('Período', '2025 – 2026'), ('Ferramentas', 'Playwright, Gherkin, CI')],
      [
-         ('contexto', 'Contexto', '<p>Sistemas legados com alto acoplamento têm um sintoma clássico: uma correção em um ponto causa erro em outro, sem relação aparente. No Simulakey, isso significava risco de mostrar ao cliente uma parcela ou um crédito errado.</p>'),
-         ('problema', 'O problema', '<div class="callout"><p>Testar manualmente tudo a cada deploy não escalava. Depender de reescrita também não era uma opção. Como dar segurança ao time para continuar entregando num sistema em que ninguém confiava?</p></div>'),
-         ('o-que-fiz', 'O que eu fiz', '<ul><li><strong>Mapeei onde o sistema mais quebrava</strong>: os cálculos e os passos da simulação que mais geravam regressão.</li><li><strong>Criei uma suíte de regressão automatizada</strong> focada nesses pontos, com cenários orientados a dados para cobrir as combinações de regra.</li><li><strong>Coloquei a suíte na pipeline</strong>: ela roda a cada deploy e, se falhar, o deploy não segue.</li><li><strong>Adicionei health check do serviço</strong> em homologação e produção, para separar na hora "o sistema caiu" de "o teste achou um bug".</li><li><strong>Documentei os riscos de arquitetura</strong> que os testes revelaram, como insumo para a priorização da reescrita.</li></ul>' + f'<figure class="diagram">{d3}<figcaption>A suíte funciona como um portão: nenhum deploy chega a produção sem passar pela regressão dos cálculos.</figcaption></figure>'),
-         ('resultado', 'Resultado', '<div class="numbers"><div><b>Cada deploy</b><span>passa pela regressão automática antes de produção</span></div><div><b>Antes do cliente</b><span>regressões de cálculo barradas na pipeline</span></div><div><b>HML e PROD</b><span>com health check do serviço</span></div></div><p>O time voltou a entregar com confiança num sistema frágil, e a discussão sobre reescrever passou a ter dados: onde quebra, quanto e por quê.</p>'),
-         ('aprendizado', 'O que aprendi', '<p>Nem todo problema de qualidade se resolve com mais testes manuais ou com uma reescrita. Às vezes, a melhor decisão é uma rede de segurança no lugar certo da pipeline, enquanto a solução definitiva não chega.</p>'),
+         ('contexto', 'Contexto', '<p>Por questões de prazo e prioridade, o Simulakey cresceu com <strong>regras de negócio e cálculos implementados no front-end</strong>, muitas dependências entre partes do código e uma arquitetura que já estava ultrapassada.</p><p>O resultado era o sintoma clássico de sistema legado: uma correção em um ponto quebrava outro, sem relação aparente. Numa calculadora financeira, isso significa o risco de mostrar ao cliente uma parcela ou um crédito errado.</p>'),
+         ('problema', 'O problema', '<div class="callout"><p>Em média, <strong>20 bugs por mês</strong> saíam dessa calculadora. Testar tudo manualmente a cada entrega não escalava, e esperar a reescrita também não era opção. Como dar segurança ao time para continuar entregando num sistema em que ninguém confiava?</p></div>'),
+         ('o-que-fizemos', 'O que fizemos', '<ul><li><strong>Mapeamos onde o sistema mais quebrava</strong>: as regras e os cálculos que mais geravam regressão, além dos fluxos ponta a ponta da plataforma.</li><li><strong>Escrevemos os cenários em Gherkin</strong> (Dado, Quando, Então). Assim, as regras de negócio ficaram documentadas numa linguagem que produto e negócio também conseguem ler e validar.</li><li><strong>Automatizamos com Playwright</strong> três camadas na mesma suíte: as regras de negócio, os cálculos (com combinações orientadas a dados) e os testes E2E de toda a plataforma.</li><li><strong>Colocamos a suíte na pipeline, rodando a cada deploy</strong>: se um cálculo ou um fluxo quebra, a versão não segue para produção.</li><li><strong>Usamos os resultados para mostrar os riscos da arquitetura</strong>: onde quebra, quanto e por quê, como insumo para priorizar a evolução do sistema.</li></ul>' + f'<figure class="diagram">{d3}<figcaption>Cada deploy passa pela suíte. Os cenários em Gherkin são a ponte entre a regra de negócio e o teste automatizado.</figcaption></figure>'),
+         ('resultado', 'Resultado', f'<figure class="diagram">{d3b}<figcaption>Média de bugs por mês na calculadora, antes e depois da automação a cada deploy.</figcaption></figure><div class="numbers"><div><b>20 → 5</b><span>bugs por mês na calculadora</span></div><div><b>−75%</b><span>de bugs, sem reescrever o sistema</span></div><div><b>Cada deploy</b><span>validado em regras, cálculos e E2E antes de produção</span></div></div><p>O time voltou a entregar com confiança num sistema frágil. E a conversa sobre reescrever passou a ter dados, não só percepção.</p>'),
+         ('aprendizado', 'O que aprendi', '<p>Nem todo problema de qualidade se resolve com mais testes manuais ou esperando uma reescrita. Uma rede de segurança no lugar certo da pipeline, escrita numa linguagem que o negócio entende, mudou o resultado sem mudar a arquitetura.</p>'),
      ],
      ('compra-de-bens-e-servicos.html', 'Compra de bens e serviços'), ('plataforma-de-automacao.html', 'Plataforma de automação E2E'))
 
