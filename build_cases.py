@@ -34,10 +34,10 @@ FOOT = """<footer><div class="wrap">Haian Vilas Boas · Case descrito em nível 
 def box(x, y, w, h, label, sub='', color=None, fill=SURF):
     stroke = color or LINE
     s = f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="10" fill="{fill}" stroke="{stroke}" stroke-width="1.5"/>'
-    cy = y + h / 2 + (-7 if sub else 5)
-    s += f'<text x="{x + w / 2}" y="{cy}" text-anchor="middle" font-size="14" font-weight="700" fill="{TEXT}">{label}</text>'
+    cy = y + h / 2 + (-8 if sub else 6)
+    s += f'<text x="{x + w / 2}" y="{cy}" text-anchor="middle" font-size="17" font-weight="700" fill="{TEXT}">{label}</text>'
     if sub:
-        s += f'<text x="{x + w / 2}" y="{cy + 19}" text-anchor="middle" font-size="12" fill="{MUTED}">{sub}</text>'
+        s += f'<text x="{x + w / 2}" y="{cy + 21}" text-anchor="middle" font-size="14" fill="{MUTED}">{sub}</text>'
     return s
 
 
