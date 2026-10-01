@@ -105,12 +105,12 @@ page('consorcio-como-investimento', 'p', 'Consórcio como investimento',
 
 # ------------------------------------------------------------------ PRODUTO 2
 d2 = svg(1000, 290, ''.join([
-    box(10, 110, 170, 70, 'Objetivo do cliente', 'bem ou serviço, valor, prazo', P),
+    box(10, 110, 170, 70, 'Objetivo do cliente', 'valor, prazo, parcela', P),
     arrow(180, 130, 255, 70), arrow(180, 160, 255, 220),
     box(260, 35, 230, 70, 'Busca inteligente', 'o sistema sugere as cotas', P, '#20263b'),
     box(260, 185, 230, 70, 'Busca manual', 'o cliente escolhe a cota', P),
     arrow(490, 70, 560, 130), arrow(490, 220, 560, 160),
-    box(565, 110, 190, 70, 'Simulação', 'mesmas regras nos dois caminhos', P),
+    box(565, 110, 190, 70, 'Simulação', 'uma regra só', P),
     arrow(755, 145, 805, 145),
     box(810, 110, 180, 70, 'Proposta', 'cota reservada'),
 ]), P)
@@ -159,17 +159,17 @@ page('simulakey', 'q', 'Simulakey: proteger um sistema frágil a cada deploy',
 
 # ------------------------------------------------------------------ QUALIDADE 2
 d4 = svg(1000, 330, ''.join([
-    box(10, 20, 200, 64, 'Agendador', 'smoke e health 5 min · críticos 6 h'),
-    box(10, 133, 200, 64, 'GitHub Actions', 'a cada mudança e sob demanda'),
+    box(10, 20, 200, 64, 'Agendador', 'a cada 5 min e a cada 6 h'),
+    box(10, 133, 200, 64, 'GitHub Actions', 'a cada mudança'),
     arrow(210, 52, 275, 85), arrow(210, 165, 275, 125),
     box(280, 20, 220, 64, 'Web · Playwright', '8 jornadas, 4 resoluções', Q, '#17302b'),
     box(280, 120, 220, 64, 'Mobile · Appium', 'app Android', Q, '#17302b'),
     box(280, 220, 220, 64, 'Health check', 'microsserviços HML e PROD', Q, '#17302b'),
     arrow(500, 52, 575, 140), arrow(500, 152, 575, 152), arrow(500, 252, 575, 165),
-    box(580, 115, 170, 76, 'Resultados', 'histórico, evidências, tempos'),
+    box(580, 115, 170, 76, 'Resultados', 'histórico e tempos'),
     arrow(750, 135, 815, 60), arrow(750, 172, 815, 240),
-    box(820, 25, 170, 70, 'Portal', 'saúde em tempo real, ROI'),
-    box(820, 205, 170, 70, 'Teams', 'alerta ao cair e ao voltar', '#e07a7a'),
+    box(820, 25, 170, 70, 'Portal', 'saúde em tempo real'),
+    box(820, 205, 170, 70, 'Teams', 'ao cair e ao voltar', '#e07a7a'),
 ]), Q)
 
 page('plataforma-de-automacao', 'q', 'Plataforma de automação E2E com monitoramento',
